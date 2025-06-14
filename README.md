@@ -29,7 +29,6 @@
 ## ⚙️ Installation
 
 ### 1. Clone the Repository
-```bash
 git clone https://github.com/yourusername/devconnect.git
 cd devconnect
 2. Create Virtual Environment
@@ -55,7 +54,7 @@ Edit
 python manage.py runserver
 Visit http://127.0.0.1:8000/ in your browser.
 
-🧩 Folder Structure
+📁 Folder Structure
 bash
 Copy
 Edit
@@ -64,18 +63,28 @@ devconnect/
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
-│   ├── templates/
-│   └── ...
+│   └── templates/
 ├── users/             # User registration and login
-├── templates/
-├── static/            # CSS and assets
+├── templates/         # Global templates
+├── static/            # CSS and static assets
 ├── db.sqlite3
 └── manage.py
-💡 How It Works
-User Auth: Users sign up and log in using Django’s auth system.
+yaml
+Copy
+Edit
 
-Rooms: Users can create new chat rooms or join existing ones.
+---
 
-Messaging: Inside each room, users can send and read messages. Page reloads handle updates.
+### ✅ Notes:
+- Remove the "Copy" and "Edit" annotations — those are GitHub UI elements, **not part of the markdown**.
+- Use triple backticks (```) before and after code blocks (not inside).
 
-Participants: Each room keeps track of users who’ve joined.
+Let me know if you want the final `.md` file exported for direct use!
+
+
+
+
+
+
+
+
