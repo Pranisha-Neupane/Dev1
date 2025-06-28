@@ -23,39 +23,37 @@
 
 
       <h2>Register</h2>
-      
-      <form  method="post">
-          {% csrf_token %}
-          <div class="input-box">
-              <input type="text" name="username" required />
-              <label for="username">Username:</label>
-              <i class="fa-solid fa-user"></i>
-          </div>
+    <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-          <div class="input-box">
-              <input type="email" name="email" required />
-              <label for="email">Email:</label>
-              <i class="fa-solid fa-envelope"></i>
-          </div>
+    <div class="input-box">
+        {{ form.username.errors }}
+        {{ form.username }}
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+    </div>
 
-          <div class="input-box">
-              <input type="password" name="pass1" required />
-              <label for="password">Password:</label>
-              <i class="fa-solid fa-lock"></i>
-          </div>
+    <div class="input-box">
+        {{ form.email.errors }}
+        {{ form.email }}
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+    </div>
 
-          <div class="input-box">
-              <input type="password" name="pass2" required />
-              <label for="password_confirm">Confirm Password:</label>
-              <i class="fa-solid fa-lock"></i>
-          </div>
+    <div class="input-box">
+        {{ form.password1.errors }}
+        {{ form.password1 }}
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+    </div>
 
-          <button type="submit" class="btn">Register</button>
+    <div class="input-box">
+        {{ form.password2.errors }}
+        {{ form.password2 }}
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+    </div>
 
-          <div class="logreg-link">
-              <p>Already have an account? <a href="{% url 'login' %}" class="login_link">Login</a></p>
-          </div>
-      </form>
+    <button type="submit" class="btn">Register</button>
+</form>
+
   </div>
 
   <div class="info-text login">

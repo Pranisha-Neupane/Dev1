@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+        'dashub',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +53,9 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'DevCon.CustomUser'
-AUTHENTICATION_BACKENDS = ['DevCon.auth_backends.EmailBackend']
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
@@ -134,3 +138,46 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+DASHUB_SETTINGS = {
+    "site_logo": "/static/",
+    "site_icon": "/static/",
+    "theme_color": "#31aa98",
+    "border_radius": "5px",
+    "hide_models": [
+        "auth",  # Hides all models in the auth app
+        "auth.group"  # Hides the group model in the auth app
+    ],
+    "custom_links": {
+        "auth": [
+            {
+                "model": "auth.post" # Links directly to the auth.post model
+            },
+            {
+                "name": "User Management",
+                "icon": "fa-solid fa-users",
+                "submenu": [
+                    {"model": "auth.user", "order": 1},
+                    {"model": "auth.group", "order": 2}
+                ]
+            }
+        ],
+    },
+    "submenus_models": ["auth.group"],
+    "default_orders": {
+        "auth": 10,
+        "auth.group": 4,
+    },
+    "icons": {
+        "auth": "fa-regular fa-user",
+        "auth.user": "fa-regular fa-user",
+    },
+    "custom_js": [
+        "/static/js/admin.js",
+    ],
+    "custom_css": [
+        "/static/css/admin.css",
+    ]
+}
