@@ -29,7 +29,7 @@ def login_view(request):
         messages.error(request, "Invalid credentials")
     return render(request, 'login.html')
 
-# @login_required
+@login_required
 def dashboard_view(request):
     rooms = Room.objects.all()
     return render(request, 'dashboard.html', {'rooms': rooms})
@@ -39,7 +39,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-# @login_required
+@login_required
 def create_room(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -57,7 +57,7 @@ def create_room(request):
         return redirect('dashboard')
     return render(request, 'create_room.html')
 
-# @login_required
+@login_required
 def join_room(request, room_id):
     room_instance = Room.objects.get(id=room_id)
     room_contents = Message.objects.filter(room=room_instance).order_by('time_stamp')
@@ -81,7 +81,7 @@ def join_room(request, room_id):
         'auth': True
     })
 
-# @login_required
+@login_required
 def msg(request, room_id):
     if request.method == 'POST':
         body = request.POST.get('body')
@@ -90,7 +90,7 @@ def msg(request, room_id):
         Message.objects.create(user=user, room=room, body=body)
         return redirect('join_room', room_id=room_id)
 
-# @login_required
+@login_required
 def view_room(request, room_id):
     if request.method == 'POST':
         room = Room.objects.get(id=room_id)
@@ -113,9 +113,8 @@ def view_room(request, room_id):
             'auth':auth
         })
 
-from django.contrib.auth.decorators import login_required
 
-# @login_required
+@login_required
 def myrooms(request):
     user_id = request.session.get('userid')
 
