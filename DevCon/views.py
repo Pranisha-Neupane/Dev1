@@ -18,18 +18,18 @@ def register_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
         if user:
             login(request, user)
             request.session['userid'] = user.id
-            request.session['username'] = username
+            request.session['email'] = email
             return redirect('dashboard')
         messages.error(request, "Invalid credentials")
     return render(request, 'login.html')
 
-@login_required
+# @login_required
 def dashboard_view(request):
     rooms = Room.objects.all()
     return render(request, 'dashboard.html', {'rooms': rooms})
@@ -39,19 +39,25 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required
+# @login_required
 def create_room(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        created_by = request.session.get('username')
-        room=Room.objects.create(title=title, description=description, created_by=created_by)
-        user=CustomUser.objects.get(username=created_by)
-        Participents.objects.create(user=user,room_id=room.id)
+        user_id = request.session.get('userid')
+
+        if not user_id:
+            return redirect('login')  # or show an error message
+
+        user = CustomUser.objects.get(id=user_id)
+
+        room = Room.objects.create(title=title, description=description, created_by=user)
+        Participents.objects.create(user=user, room=room)
+
         return redirect('dashboard')
     return render(request, 'create_room.html')
 
-@login_required
+# @login_required
 def join_room(request, room_id):
     room_instance = Room.objects.get(id=room_id)
     room_contents = Message.objects.filter(room=room_instance).order_by('time_stamp')
@@ -75,16 +81,16 @@ def join_room(request, room_id):
         'auth': True
     })
 
-@login_required
+# @login_required
 def msg(request, room_id):
     if request.method == 'POST':
         body = request.POST.get('body')
-        user = CustomUser.objects.get(username=request.session.get('username'))
+        user = CustomUser.objects.get(id=request.session.get('userid'))
         room = Room.objects.get(id=room_id)
         Message.objects.create(user=user, room=room, body=body)
         return redirect('join_room', room_id=room_id)
 
-@login_required
+# @login_required
 def view_room(request, room_id):
     if request.method == 'POST':
         room = Room.objects.get(id=room_id)
@@ -109,13 +115,15 @@ def view_room(request, room_id):
 
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def myrooms(request):
-    user = CustomUser.objects.get(username=request.session.get('username'))
+    user_id = request.session.get('userid')
+
+    if not user_id:
+        return redirect('login')  # or show error if not authenticated
+
+    user = CustomUser.objects.get(id=user_id)
     participents = Participents.objects.filter(user=user)
     rooms = Room.objects.filter(id__in=participents.values_list('room_id', flat=True))
 
     return render(request, 'myrooms.html', {'rooms': rooms})
-
-
-    

@@ -13,11 +13,11 @@ class Room(models.Model):
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.username
+        return self.email
     
 class Message(models.Model):
     user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -26,9 +26,5 @@ class Message(models.Model):
     room=models.ForeignKey(Room,on_delete=models.CASCADE)
 
 class Participents(models.Model):
-    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    room_id=models.CharField(max_length=200)
-    
-
-
-
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
