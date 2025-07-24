@@ -88,14 +88,3 @@ devconnect/
 └── manage.py
 ```
 
-````
-
----
-
-### ✅ Notes:
-- Remove the "Copy" and "Edit" annotations — those are GitHub UI elements, **not part of the markdown**.
-- Use triple backticks (```) before and after code blocks (not inside).
-
-Let me know if you want the final `.md` file exported for direct use!
-````
-"# Dev" 
